@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Level 3 - Jeu</title>
+  <link rel="stylesheet" href="level3.css" />
+</head>
+<body>
+  <div class="game-container">
+    <div class="game-header">
+      <div class="timer-container" id="timerDisplay">30</div>
+      <div class="stars-container">
+        <img src="levels_images/star_empty.png" class="star">
+        <img src="levels_images/star_empty.png" class="star">
+        <img src="levels_images/star_empty.png" class="star">
+      </div>
+    </div>
+
+    <div class="play-area" id="playArea">
+      <img id="player" src="levels_images/dog.png" class="player">
+    </div>
+
+    <div id="countdown" class="countdown">3</div>
+  </div>
+
+  <!-- SONS -->
+  <audio id="soundWin" src="sounds/victory_loop.mp3" preload="auto"></audio>
+  <audio id="soundLose" src="sounds/deception_loop.mp3" preload="auto"></audio>
+  <audio id="soundDeath" src="sounds/soundDeath.mp3" preload="auto"></audio>
+  <audio id="soundFire" src="sounds/soundFire.wav" preload="auto"></audio>
+  <audio id="backgroundMusic" src="sounds/1.mp3" preload="auto" loop></audio>
+
+  <script src="level3.js"></script>
+</body>
+</html>

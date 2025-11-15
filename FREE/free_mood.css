@@ -1,0 +1,268 @@
+/* reprend la palette du projet (rose clair / blanc / gris) et rend tout grand */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    background-image: url("../images/background.jpg");
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* variante du container déjà utilisée (grand rectangle central) */
+.game-container {
+    max-width: 1100px;
+    width: 92%;
+    padding: 40px;
+    border-radius: 24px;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 18px 50px rgba(0,0,0,0.18);
+}
+
+/* top line : score et time sur la même ligne */
+.top-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 0 10px;
+}
+
+.top-line .left,
+.top-line .right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.label {
+    font-size: 1.1rem;
+    color: #777;
+    font-weight: 600;
+}
+
+#score, #time {
+    font-size: 1.6rem;
+    color: #e68ca6;
+    font-weight: 800;
+}
+
+/* petite ligne séparatrice sous la top-line */
+.separator {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(230,140,166,0.12), rgba(0,0,0,0.05));
+    margin: 5px 0;
+}
+
+/* zone de jeu - grande bordure mise en valeur */
+.play-area {
+    width: 100%;
+    height: 520px;
+    border-radius: 12px;
+    border: 6px solid rgba(230,140,166,0.3); /* couleur qui changera toutes les 30s via JS */
+    background: rgba(250,250,250,0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+/* éléments du jeu créés par JS utiliseront .entity etc. */
+.entity {
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* joueur */
+.player {
+    width: 80px;
+    height: 80px;
+    transform-origin: center;
+}
+
+/* ennemi */
+.enemy {
+    width: 60px;
+    height: 60px;
+}
+
+/* projectile (flamme) */
+.flame {
+    width: 30px;
+    height: 12px;
+}
+
+/* contrôles en bas */
+.controls-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 18px;
+    gap: 16px;
+}
+
+/* boutons sélection de mode */
+.control-select {
+    padding: 14px 20px;
+    border-radius: 12px;
+    border: 2px solid #e3b5c6;
+    background: rgba(255,255,255,0.9);
+    color: #e68ca6;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: transform 0.2s ease, background 0.2s;
+}
+
+.control-select.active {
+    background: #e68ca6;
+    color: #fff;
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(230,140,166,0.25);
+}
+
+/* start */
+.start-btn {
+    padding: 16px 36px;
+    border-radius: 14px;
+    border: none;
+    background: #e68ca6;
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.start-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* hint highscore */
+.hint {
+    margin-top: 8px;
+    color: #666;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+/* responsive */
+@media (max-width: 800px) {
+    .play-area { height: 420px; }
+    .player { width: 64px; height: 64px; }
+    .enemy { width: 48px; height: 48px; }
+    .flame { width: 24px; height: 10px; }
+    #score, #time { font-size: 1.3rem; }
+}
+.retour {
+    position: absolute;
+    top: 25px;
+    right: 35px;
+    background-color: rgba(255, 255, 255, 0.85);
+    border: 2px solid #e68ca6;
+    color: #e68ca6;
+    font-size: 1em;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 18px 0;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+}
+
+.retour:hover {
+    background-color: #e68ca6;
+    color: #fff;
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(230, 140, 166, 0.4);
+}
+
+.explosion {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 6px solid orange;
+  opacity: 0.8;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+
+/* @keyframes explode {
+    0% { transform: scale(0.5); opacity: 1; }
+    70% { transform: scale(2.5); opacity: 0.8; }
+    100% { transform: scale(3.5); opacity: 0; }
+} */
+
+
+.game-over-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 5rem;
+  font-weight: 900;
+  color: #e68ca6;
+  text-shadow: 0 0 20px rgba(230,140,166,0.6);
+  opacity: 0;
+  animation: fadeInScale 2s ease forwards;
+}
+
+@keyframes fadeInScale {
+  0% { transform: translate(-50%, -50%) scale(0.2); opacity: 0; }
+  50% { transform: translate(-50%, -50%) scale(1.4); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.9; }
+}
+
+
+.game-over-img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px; /* adapte selon la taille de ton image */
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  z-index: 10;
+  animation: gameOverFade 2.5s ease forwards;
+}
+
+@keyframes gameOverFade {
+  0% {
+    transform: translate(-50%, -50%) scale(0.2);
+    opacity: 0;
+  }
+  60% {
+    transform: translate(-50%, -50%) scale(1.3);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.9;
+  }
+}
+.start-image {
+  width: 250px;
+  opacity: 0;
+  animation: fadeZoomIn 1.5s forwards;
+}
+
+@keyframes fadeZoomIn {
+  0% { transform: translate(-50%, -50%) scale(0.6); opacity: 0; }
+  60% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+
+

@@ -1,0 +1,204 @@
+/* level1.css */
+
+/* --- Général et Arrière-plan --- */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('images/backgroundGeneral.jpg'); /* Arrière-plan général */
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Conteneur principal du jeu */
+.game-container {
+    max-width: 1000px;
+    width: 90%;
+    padding: 20px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.95); /* Fond du cadre de jeu */
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    /* Utilisation de la classe 'hidden' pour cacher au début */
+}
+.hidden {
+    display: none;
+}
+
+/* --- Ligne d'En-tête --- */
+.level-header-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    margin-bottom: 10px;
+}
+
+.level-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #444;
+}
+
+.level-stars-status .status-star {
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
+}
+
+/* Ligne de séparation */
+.separator {
+    border: 0;
+    height: 1px;
+    background: #ccc;
+    margin: 10px 0;
+}
+
+/* --- Zone de Jeu --- */
+.play-area {
+    position: relative;
+    width: 100%;
+    height: 400px; /* Hauteur fixe pour l'espace de jeu */
+    border-radius: 8px;
+    background-color: #f7f7f7; /* Gris clair pour l'espace de jeu */
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: hidden; /* Important pour le mouvement du canard/ennemis */
+}
+
+/* --- Éléments du Jeu (Player/Enemy/Flame) --- */
+
+.player-entity, .enemy-entity, .flame-entity {
+    position: absolute;
+    /* La taille et la position seront définies par JS */
+}
+
+/* --- Barre de Temps (Time Bar) --- */
+
+.time-bar-wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.time-display {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #e68ca6;
+    margin-right: 15px;
+    width: 80px; /* Taille fixe pour alignement */
+    text-align: right;
+}
+
+.time-bar {
+    flex-grow: 1;
+    position: relative; /* Point d'ancrage pour le canard et les étoiles */
+    height: 20px;
+    background-color: #f0f0f0; 
+    border-radius: 10px;
+    overflow: visible; /* ESSENTIEL pour que le canard et les étoiles débordent */
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.time-passed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%; /* Début à zéro, contrôlé par JS */
+    background-color: #ff6347; /* Rouge pour le temps écoulé */
+    transition: width 0.1s linear; /* Animation fluide de la couleur */
+}
+
+.duck-indicator {
+    position: absolute;
+    /* Place le canard (50px de haut) entièrement AU-DESSUS du bord (top: 0) */
+    top: -50px; 
+    left: 0%;
+    width: 50px; 
+    height: 50px;
+    background-image: url('images/canard.png'); 
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 5; /* Assurez-vous qu'il est au-dessus des étoiles */
+    /* Centrage horizontal : le canard s'aligne sur le point 'left: X%' */
+    transform: translateX(-50%); 
+    transition: left 0.1s linear; 
+}
+/* Zones de condition d'étoile */
+.star-condition-zone {
+    position: absolute;
+    /* Nous allons mettre les étoiles 50px au-dessus du top: 0 de la barre */
+    top: -5px; /* Ligne de départ légèrement au-dessus */
+    width: 2px;
+    height: 30px; /* Ligne plus courte pour ne pas écraser l'étoile */
+    background-color: transparent; 
+    /* Ligne pointillée fine pour marquer la condition */
+    border-left: 2px dashed rgba(230, 140, 166, 0.8); 
+    z-index: 4;
+    transform: translateX(-50%);
+}
+
+.star-condition-icon {
+    position: absolute;
+    /* Décalage pour remonter les icônes au-dessus de la barre */
+    top: -28px; 
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 3px;
+}
+
+.star-condition-icon img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+/* --- COMPTE À REBOURS PRÉ-JEU --- */
+
+.pre-game-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    /* ANCIEN : background: rgba(255, 255, 255, 0.9); */
+    /* NOUVEAU : Plus transparent (0.6 au lieu de 0.9) */
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.timer-display {
+    font-size: 8rem;
+    font-weight: 900;
+    color: #e68ca6;
+    text-shadow: 0 0 20px rgba(230, 140, 166, 0.8);
+    opacity: 0; /* Contrôlé par l'animation */
+}
+
+.courage-duck {
+    width: 150px;
+    height: 150px;
+    opacity: 0; /* Contrôlé par l'animation */
+}
+
+/* Animation d'agrandissement et de disparition du timer/canard */
+@keyframes timerPulse {
+    0% { transform: scale(0.5); opacity: 0.5; }
+    50% { transform: scale(1.5); opacity: 1; }
+    100% { transform: scale(0.8); opacity: 0; }
+}
+
+@keyframes duckPulse {
+    0% { transform: scale(0.8); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(0.9); opacity: 0.8; }
+}

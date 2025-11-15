@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Restart - Résultat du Niveau</title>
+  
+  <style>
+    /* Style général (réutilisé de l'ancienne version) */
+    body { font-family: Poppins, sans-serif; display:flex; align-items:center; justify-content:center; height:100vh; margin:0; background:#f7f7f8; }
+    .card { background:white; padding:28px 36px; border-radius:14px; box-shadow:0 8px 30px rgba(0,0,0,0.08); text-align:center; width:92%; max-width:540px;}
+    h1 { color:#e68ca6; margin-bottom:6px; }
+    p { color:#555; margin:8px 0; font-weight:600;}
+    /* Styles des boutons */
+    .btn { padding:12px 20px; margin:10px; background:#e68ca6; color:white; border:none; border-radius:10px; cursor:pointer; font-weight:700; transition: background-color 0.2s, transform 0.1s;}
+    .btn:hover { transform: scale(1.02); }
+    .btn.back { background: #ddd; color:#444; }
+    .btn.next { background: #6cb65f; } /* Vert pour le niveau suivant */
+    
+    /* --- Styles des coins / Effets (Flammes/Canards) --- */
+    .corner-image, .lose-image {
+        position: fixed; 
+        width: 100px; 
+        height: 100px; 
+        opacity: 0.8;
+        z-index: -1; 
+        pointer-events: none; 
+        transform-origin: center center;
+    }
+    .corner-image { animation: pulse 0.6s infinite alternate; }
+    .lose-image { animation: spinSlow 4s linear infinite; filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.4)); }
+    .top-left { top: 20px; left: 20px; }
+    .top-right { top: 20px; right: 20px; }
+    .bottom-left { bottom: 20px; left: 20px; }
+    .bottom-right { bottom: 20px; right: 20px; }
+
+    @keyframes pulse {
+        0% { transform: scale(1); opacity: 0.7; }
+        100% { transform: scale(1.05); opacity: 0.9; }
+    }
+    @keyframes spinSlow {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    /* --- Styles des Étoiles --- */
+    .win-stars {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin: 15px 0 20px;
+    }
+    .win-stars img {
+        width: 40px;
+        height: 40px;
+        transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+    }
+    .star-achieved {
+        transform: scale(1);
+        opacity: 1;
+        animation: starPop 0.5s ease-out forwards;
+    }
+    .star-empty {
+        transform: scale(0.8);
+        opacity: 0.4;
+    }
+    @keyframes starPop {
+        0% { transform: scale(0); }
+        70% { transform: scale(1.2); }
+        100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body><div id="result-container">
+  <h1 id="result-message"></h1>
+  <div class="win-stars" id="stars"></div>
+  <p id="time"></p>
+
+  <button id="btn-replay" class="btn">🔁 Restart</button>
+  <button id="btn-next" class="btn next">⏭️ Next level</button>
+  <button id="btn-levels" class="btn back">⬅️ Return to levels</button>
+</div>
+
+<audio id="sound-win" src="sounds/victory_loop.mp3"></audio>
+<audio id="sound-lose" src="sounds/deception_loop.mp3"></audio>
+
+
+
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  
+  const soundWin = document.getElementById("sound-win");
+  const soundLose = document.getElementById("sound-lose");
+  
+
+  const isWin = localStorage.getItem("level_isWin") === "1";
+  const stars = parseInt(localStorage.getItem("level_starsAchieved") || "0", 10);
+  const time = localStorage.getItem("level_finalTime") || "0";
+  const currentLevel = localStorage.getItem("level_currentLevel") || "1";
+
+
+
+
+  document.body.addEventListener('click', function playOnce() {
+    if (isWin) soundWin.play();
+    else soundLose.play();
+    document.body.removeEventListener('click', playOnce);
+  });
+
+  // Mettre à jour les données du niveau pour levels_mode
+const STORAGE_KEY_MAX_LEVEL = 'levels_maxReached';
+const STORAGE_KEY_LEVEL_DATA = 'levels_data';
+
+// Récupérer les anciennes données
+let maxLevelReached = parseInt(localStorage.getItem(STORAGE_KEY_MAX_LEVEL) || '1', 10);
+let levelData = JSON.parse(localStorage.getItem(STORAGE_KEY_LEVEL_DATA) || '{}');
+
+// Mettre à jour les étoiles du niveau actuel
+levelData[currentLevel] = Math.max(stars, levelData[currentLevel] || 0);
+
+// Déverrouiller le niveau suivant si gagné
+if (isWin && parseInt(currentLevel) >= maxLevelReached) {
+    maxLevelReached = parseInt(currentLevel) + 1;
+}
+
+// Sauvegarder dans localStorage
+localStorage.setItem(STORAGE_KEY_LEVEL_DATA, JSON.stringify(levelData));
+localStorage.setItem(STORAGE_KEY_MAX_LEVEL, maxLevelReached);
+
+
+  const msg = document.getElementById("result-message");
+  const starsDiv = document.getElementById("stars");
+  const btnReplay = document.getElementById("btn-replay");
+  const btnNext = document.getElementById("btn-next");
+  const btnLevels = document.getElementById("btn-levels");
+
+  
+
+
+  msg.textContent = isWin ? "🎉 Niveau réussi !" : "💀 Échec du niveau";
+  msg.style.color = isWin ? "green" : "red";
+
+
+
+  // Afficher les étoiles avec images
+  starsDiv.innerHTML = "";
+  const STAR_FULL = "images/star_full.png";
+  const STAR_EMPTY = "images/star_empty.png";
+
+  for (let i = 0; i < 3; i++) {
+    const img = document.createElement("img");
+    img.src = i < stars ? STAR_FULL : STAR_EMPTY;
+    img.alt = "Étoile";
+    img.className = i < stars ? "star-achieved" : "star-empty";
+    starsDiv.appendChild(img);
+  }
+
+  document.getElementById("time").textContent = `⏱ Temps : ${time}s`;
+
+  // Boutons
+  btnReplay.onclick = () => {
+
+
+    localStorage.removeItem("level_isWin");
+    localStorage.removeItem("level_starsAchieved");
+    localStorage.removeItem("level_finalTime");
+    localStorage.removeItem("level_currentLevel");
+
+    
+    window.location.href = `level${currentLevel}.html`;
+  };
+
+  btnNext.onclick = () => {
+    window.location.href = `C:\Users\USER\OneDrive\Documents\cycle ingénieur\programmation web\js\ds Mini Jeu\Levels\level_2\level2.html`;
+  };
+
+  btnLevels.onclick = () => {
+    window.location.href = "../levels_mood.html"; // <-- Retour à la page des niveaux
+  };
+
+  // Cacher le bouton "Next" si perdu
+  if (!isWin) {
+    btnNext.style.display = "none";
+  }
+});
+</script>
+
+</body>
+</html>

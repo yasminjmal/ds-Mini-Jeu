@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Free MOOD - Jeu</title>
+    <link rel="stylesheet" href="../mode_jeu/mode_jeu.css"> <!-- réutilise le style global -->
+    <link rel="stylesheet" href="free_mood.css">
+</head>
+<body>
+    <button id="btnRetour" class="retour">
+        Return
+    </button>
+    <div class="container game-container">
+        <div class="top-line">
+            <div class="left">
+                <div class="label">SCORE :</div>
+                <div id="score">0</div>
+            </div>
+            <div class="right">
+                <div class="label">TIME :</div>
+                <div id="time">00:00</div>
+            </div>
+        </div>
+
+        <hr class="separator">
+
+        <!-- zone de jeu -->
+        <div id="playArea" class="play-area">
+            <!-- joueur, ennemies et projectiles seront dessinés via JS (éléments DOM) -->
+        </div>
+
+
+        <!-- Controls / UI sous la zone -->
+        <div class="controls-row">
+            <div class="controls-left">
+                <button id="btnArrow" class="control-select">Arrows</button>
+                <button id="btnZs" class="control-select">Z / S</button>
+            </div>
+
+            <div class="controls-center">
+                <button id="btnStart" class="start-btn" disabled>Start</button>
+                <div class="hint">Higher score : <span id="highScore">0</span></div>
+            </div>
+
+            <div class="controls-right">
+                <div class="controls-legend">
+                    <div>Arrows ⬆︎ ⬇︎ ou Z / S (selon mode)</div>
+                    <div>Space = tirer</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <audio id="soundFire" src="../sounds/fire.wav" preload="auto"></audio>
+<audio id="soundEnemyDeath" src="../sounds/hit.mp3" preload="auto"></audio>
+<audio id="soundDeath" src="../sounds/death.mp3" preload="auto"></audio>
+<audio id="soundGameOver" src="../sounds/gameover.mp3" preload="auto"></audio>
+
+
+    <script src="free_mood.js"></script>
+</body>
+</html>

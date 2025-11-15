@@ -1,0 +1,122 @@
+/* ---------- Style général de la page ---------- */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    background-image: url("../assets/backgrounds/backgroundJEU.jpg"); /* 👉 mets ton image ici */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ---------- Conteneur principal ---------- */
+.container {
+    background: rgba(255, 255, 255, 0.2); /* transparence douce */
+    backdrop-filter: blur(15px);
+    border-radius: 30px;
+    padding: 80px 100px;
+    text-align: center;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 1s ease-in-out;
+    max-width: 800px;
+}
+
+/* ---------- Titre principal ---------- */
+h1 {
+    font-size: 3.5em;
+    font-weight: 700;
+    color: #e68ca6; /* rose pastel */
+    margin-bottom: 40px;
+    letter-spacing: 1.5px;
+    text-shadow: 0 2px 5px rgba(230, 140, 166, 0.2);
+}
+
+/* ---------- Sous-titre ---------- */
+.subtitle {
+    font-size: 1.6em;
+    color: #666;
+    font-style: italic;
+    margin-bottom: 30px;
+}
+
+/* ---------- Champ de texte ---------- */
+input[type="text"] {
+    width: 75%;
+    padding: 18px 20px;
+    font-size: 1.3em;
+    border: 2px solid #e3b5c6;
+    border-radius: 12px;
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.95);
+    transition: all 0.3s ease;
+    box-shadow: inset 0 3px 6px rgba(0,0,0,0.05);
+}
+
+input[type="text"]:focus {
+    border-color: #e68ca6;
+    box-shadow: 0 0 15px rgba(230, 140, 166, 0.4);
+}
+
+/* ---------- Bouton ---------- */
+button {
+    margin-top: 35px;
+    padding: 16px 40px;
+    background-color: #e68ca6;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.4em;
+    cursor: pointer;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 20px rgba(230, 140, 166, 0.3);
+}
+
+button:hover {
+    background-color: #d26d93;
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(210, 109, 147, 0.4);
+}
+
+/* ---------- Animation d’apparition ---------- */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+        padding: 60px 30px;
+    }
+
+    h1 {
+        font-size: 2.2em;
+    }
+
+    .subtitle {
+        font-size: 1.2em;
+    }
+
+    input[type="text"] {
+        width: 90%;
+        font-size: 1.1em;
+    }
+
+    button {
+        font-size: 1.2em;
+        padding: 14px 30px;
+    }
+}

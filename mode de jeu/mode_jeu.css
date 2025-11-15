@@ -1,0 +1,138 @@
+/* ---------- Style global ---------- */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    background-image: url("../assets/backgrounds/backgroundJEU.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ---------- Bouton retour ---------- */
+.retour {
+    position: absolute;
+    top: 25px;
+    right: 35px;
+    background-color: rgba(255, 255, 255, 0.85);
+    border: 2px solid #e68ca6;
+    color: #e68ca6;
+    font-size: 1em;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 18px 0;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+}
+
+.retour:hover {
+    background-color: #e68ca6;
+    color: #fff;
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(230, 140, 166, 0.4);
+}
+
+/* ---------- Conteneur principal ---------- */
+.container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border-radius: 30px;
+    padding: 80px 100px;
+    text-align: center;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 1s ease-in-out;
+    max-width: 800px;
+}
+
+/* ---------- Titre et sous-titre ---------- */
+h1 {
+    font-size: 3.5em;
+    font-weight: 700;
+    color: #e68ca6;
+    margin-bottom: 30px;
+    text-shadow: 0 2px 5px rgba(230, 140, 166, 0.2);
+}
+
+.subtitle {
+    font-size: 1.5em;
+    color: #666;
+    font-style: italic;
+    margin-bottom: 50px;
+}
+
+/* ---------- Section des boutons ---------- */
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+}
+
+/* ---------- Boutons de mode ---------- */
+.mode-btn {
+    background-color: #e68ca6;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    font-size: 1.5em;
+    font-weight: 600;
+    padding: 25px 60px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: all 0.4s ease;
+    box-shadow: 0 6px 25px rgba(230, 140, 166, 0.3);
+}
+
+/* Effet au survol */
+.mode-btn:hover {
+    background-color: #d26d93;
+    transform: scale(1.08) rotate(-1deg);
+    box-shadow: 0 10px 30px rgba(210, 109, 147, 0.5);
+}
+
+/* ---------- Animation d'apparition ---------- */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+        padding: 60px 30px;
+    }
+
+    h1 {
+        font-size: 2.4em;
+    }
+
+    .subtitle {
+        font-size: 1.2em;
+    }
+
+    .buttons {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .mode-btn {
+        width: 80%;
+        padding: 20px;
+        font-size: 1.3em;
+    }
+}

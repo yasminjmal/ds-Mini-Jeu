@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Level Mode</title>
+    <link rel="stylesheet" href="levels_mode.css">
+</head>
+<body>
+    <div class="header-bar">
+        <h1>Level Mode</h1>
+        <div class="level-progress">
+            Niveau atteint : <span id="maxLevelReached">0</span>
+        </div>
+    </div>
+    
+    <div class="level-grid" id="levelGrid">
+        <!-- Level 1 -->
+        <div class="level-block unlocked" data-level="1" id="levelBlock1">
+            <div class="lock-overlay"></div>
+            <div class="level-header">Level - 1 -</div>
+            <div class="level-content">
+                <button class="start-btn" data-target="level_1/level1.html">▶</button>
+            </div>
+            <div class="stars-container" data-stars="0">
+                <img src="levels_images/star_empty.png" class="star" alt="Étoile 1">
+                <img src="levels_images/star_empty.png" class="star" alt="Étoile 2">
+                <img src="levels_images/star_empty.png" class="star" alt="Étoile 3">
+            </div>
+        </div>
+        
+        <!-- Level 2 -->
+        <div class="level-block locked" data-level="2" id="levelBlock2">
+            <div class="lock-overlay"></div>
+            <div class="level-header">Level - 2 -</div>
+            <div class="level-content">
+                <button class="start-btn" data-target="level_2/level2.html">▶</button>
+            </div>
+            <div class="stars-container" data-stars="0">
+                <img src="levels_images/star_empty.png" class="star" alt="Étoile 1">
+                <img src="levels_images/star_empty.png" class="star" alt="Étoile 2">
+                <img src="levels_images/star_empty.png" class="star" alt="Étoile 3">
+            </div>
+        </div>
+
+
+
+
+
+        <div class="level-block locked" data-level="3" id="levelBlock3">
+            <div class="lock-overlay"></div>
+            <div class="level-header">Level - 3 -</div>
+            <div class="level-content">
+                <button class="start-btn" data-target="level_3/level3.html">▶</button>
+            </div>
+            <div class="stars-container" data-stars="0">
+                <img src="levels_images/star_empty.png" class="star" alt="Étoile 1">
+                <img src="levels_images/star_empty.png" class="star" alt="Étoile 2">
+                <img src="levels_images/star_empty.png" class="star" alt="Étoile 3">
+            </div>
+        </div>
+    </div>
+
+    <script src="levels_mode.js"></script>
+</body>
+</html>

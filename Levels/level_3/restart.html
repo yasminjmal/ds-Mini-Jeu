@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Restart - Résultat</title>
+  <style>
+    body{font-family:Poppins, sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;background:#f6f7fb;}
+    .card{background:#fff;padding:26px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.08);text-align:center;width:92%;max-width:520px}
+    h1{margin:6px 0;color:#333}
+    .stars{display:flex;gap:10px;justify-content:center;margin:12px 0}
+    .stars img{width:44px;height:44px}
+    .btn{padding:12px 18px;border-radius:10px;border:0;cursor:pointer;margin:6px;font-weight:700}
+    .btn.primary{background:#e68ca6;color:#fff}
+    .btn.gray{background:#ddd;color:#444}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1 id="title">Résultat</h1>
+    <div class="stars" id="stars"></div>
+    <p id="scoreLine"></p>
+    <p id="timeLine"></p>
+    <div>
+      <button id="replay" class="btn primary">🔁 Rejouer</button>
+      <button id="levels" class="btn gray">⬅️ Niveau</button>
+      
+    </div>
+  </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const isWin = localStorage.getItem('level_isWin') === '1';
+  const stars = parseInt(localStorage.getItem('level_starsAchieved') || '0',10);
+  const time = localStorage.getItem('level_finalTime') || '0';
+  const currentLevel = localStorage.getItem('level_currentLevel') || '3';
+
+  const title = document.getElementById('title');
+  const starsDiv = document.getElementById('stars');
+  const scoreLine = document.getElementById('scoreLine');
+  const timeLine = document.getElementById('timeLine');
+  const replayBtn = document.getElementById('replay');
+  const levelsBtn = document.getElementById('levels');
+  const nextBtn = document.getElementById('next');
+
+  title.textContent = isWin ? `🎉 Niveau ${currentLevel} réussi !` : `💀 Niveau ${currentLevel} échoué`;
+  scoreLine.textContent = `Ennemis tués : ${localStorage.getItem('level_finalScore') || '—'}`;
+  timeLine.textContent = `Temps : ${time}s`;
+
+  // stars images (from local level folder)
+  for (let i=0;i<3;i++){
+    const img = document.createElement('img');
+    img.src = i < stars ? 'levels_images/star_full.png' : 'levels_images/star_empty.png';
+    starsDiv.appendChild(img);
+  }
+
+  replayBtn.addEventListener('click', ()=>{
+    // clear level temporary keys and reload the level file
+    localStorage.removeItem('level_isWin');
+    localStorage.removeItem('level_starsAchieved');
+    localStorage.removeItem('level_finalTime');
+    localStorage.removeItem('level_finalScore');
+    localStorage.removeItem('level_currentLevel');
+    // open level3.html
+    window.location.href = 'level3.html';
+  });
+
+  levelsBtn.addEventListener('click', ()=>{
+    // go back to level mode (adjust path if your levels_mode is in parent folder)
+    window.location.href = '../levels_mood.html';
+  });
+
+  if (isWin) {
+    nextBtn.style.display = 'inline-block';
+    nextBtn.addEventListener('click', ()=> {
+      // go to next level (if exists)
+      const next = parseInt(currentLevel,10) + 1;
+      window.location.href = `../level_${next}/level${next}.html`;
+    });
+  }
+
+});
+</script>
+</body>
+</html>

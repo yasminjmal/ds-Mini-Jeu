@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Restart</title>
+<style>
+body{display:flex;justify-content:center;align-items:center;height:100vh;background:#f7f7f8;margin:0;font-family:Poppins,sans-serif}
+.card{text-align:center;background:white;padding:28px 36px;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,0.08);width:92%;max-width:540px}
+h1{margin-bottom:6px;color:#e68ca6}p{margin:8px 0;font-weight:600;color:#555}
+.btn{padding:12px 20px;margin:10px;border:none;border-radius:10px;cursor:pointer;font-weight:700;transition:0.2s;background:#e68ca6;color:white}
+.btn:hover{transform:scale(1.02)}
+.btn.back{background:#ddd;color:#444}
+.btn.next{background:#6cb65f}
+.win-stars{display:flex;justify-content:center;gap:10px;margin:15px 0 20px}
+.win-stars img{width:40px;height:40px;transition:transform 0.5s,opacity 0.5s}
+.star-achieved{transform:scale(1);opacity:1;animation:starPop 0.5s forwards}
+.star-empty{transform:scale(0.8);opacity:0.4}
+@keyframes starPop{0%{transform:scale(0)}70%{transform:scale(1.2)}100%{transform:scale(1)}}
+</style>
+</head>
+<body>
+<div class="card" id="result-container">
+<h1 id="result-message"></h1>
+<div class="win-stars" id="stars"></div>
+<p id="time"></p>
+<button id="btn-replay" class="btn">🔁 Rejouer</button>
+<button id="btn-next" class="btn next">⏭️ Niveau suivant</button>
+<button id="btn-levels" class="btn back">⬅️ Retour aux niveaux</button>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded",()=>{
+const isWin=localStorage.getItem("level_isWin")==="1";
+const stars=parseInt(localStorage.getItem("level_starsAchieved")||"0",10);
+const time=localStorage.getItem("level_finalTime")||"0";
+const currentLevel=localStorage.getItem("level_currentLevel")||"1";
+
+document.getElementById("result-message").textContent=isWin?"🎉 Niveau réussi !":"💀 Échec du niveau";
+document.getElementById("result-message").style.color=isWin?"green":"red";
+
+const starsDiv=document.getElementById("stars");
+starsDiv.innerHTML="";
+for(let i=0;i<3;i++){
+    const img=document.createElement("img");
+    img.src=i<stars?"images/star_full.png":"images/star_empty.png";
+    img.className=i<stars?"star-achieved":"star-empty";
+    starsDiv.appendChild(img);
+}
+
+document.getElementById("time").textContent=`⏱ Temps : ${time}s`;
+
+document.getElementById("btn-replay").onclick=()=>{
+    localStorage.removeItem("level_isWin");
+    localStorage.removeItem("level_starsAchieved");
+    localStorage.removeItem("level_finalTime");
+    localStorage.removeItem("level_currentLevel");
+    window.location.href=`level${currentLevel}.html`;
+};
+document.getElementById("btn-next").onclick=()=>{
+    window.location.href=`../level_3/level3.html`;
+};
+document.getElementById("btn-levels").onclick=()=>{
+    window.location.href="../levels_mood.html";
+};
+
+if(!isWin)document.getElementById("btn-next").style.display="none";
+});
+</script>
+</body>
+</html>

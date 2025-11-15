@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Level 2 - Jeu</title>
+    <link rel="stylesheet" href="level2.css">
+</head>
+<body>
+    <!-- Pré-jeu : compte à rebours -->
+    <div id="preGameTimer" class="pre-game-container">
+        <div id="timerDisplay" class="timer-display"></div>
+        <img id="courageDog" src="images/dogcourage.png" class="courage-dog" alt="Dog Courage">
+    </div>
+
+    <!-- Jeu -->
+    <div id="gameContainer" class="game-container hidden">
+        <div class="level-header-line">
+            <div class="level-title">- Level 2 -</div>
+            <div id="levelStarsContainer" class="level-stars-status">
+                <img src="../levels_images/star_empty.png" class="status-star" id="levelStar1">
+                <img src="../levels_images/star_empty.png" class="status-star" id="levelStar2">
+                <img src="../levels_images/star_empty.png" class="status-star" id="levelStar3">
+            </div>
+        </div>
+
+        <div class="time-bar-wrapper">
+            <div id="timeDisplay" class="time-display">01:00</div>
+            <div id="timeBar" class="time-bar">
+                <div id="duckIndicator" class="duck-indicator"></div>
+                <div class="star-condition-zone condition-3-star" style="left: 23.33%;">
+                    <div class="star-condition-icon">
+                        <img src="../levels_images/star_full.png" alt="3 Stars">
+                        <img src="../levels_images/star_full.png" alt="3 Stars">
+                        <img src="../levels_images/star_full.png" alt="3 Stars">
+                    </div>
+                </div>
+                <div class="star-condition-zone condition-2-star" style="left: 50%;">
+                    <div class="star-condition-icon">
+                        <img src="../levels_images/star_full.png" alt="2 Stars">
+                        <img src="../levels_images/star_full.png" alt="2 Stars">
+                    </div>
+                </div>
+                <div class="star-condition-zone condition-1-star" style="left: 66.66%;">
+                    <div class="star-condition-icon">
+                        <img src="../levels_images/star_full.png" alt="1 Star">
+                    </div>
+                </div>
+                <div id="timePassed" class="time-passed"></div>
+            </div>
+        </div>
+
+        <hr class="separator">
+
+        <div id="playArea" class="play-area" style="background-image: url('images/backgroundPlay.jpg');">
+        </div>
+    </div>
+
+    <!-- Sons -->
+    <audio id="sound1" src="sounds/un.mp3" preload="auto"></audio>
+    <audio id="sound2" src="sounds/deux.mp3" preload="auto"></audio>
+    <audio id="sound3" src="sounds/trois.mp3" preload="auto"></audio>
+    <audio id="soundGo" src="sounds/go.mp3" preload="auto"></audio>
+    <audio id="soundFire" src="sounds/fire.wav" preload="auto"></audio>
+    <audio id="soundEnemyDeath" src="sounds/hit.mp3" preload="auto"></audio>
+    <audio id="soundDeath" src="sounds/death.mp3" preload="auto"></audio>
+
+    <script src="level2.js"></script>
+</body>
+</html>

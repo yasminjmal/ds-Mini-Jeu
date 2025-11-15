@@ -1,0 +1,91 @@
+/* ----- Reset général ----- */
+* { box-sizing: border-box; user-select: none; margin:0; padding:0; }
+body {
+  display: flex; justify-content: center; align-items: center;
+  height: 100vh; font-family: "Poppins", sans-serif;
+  background: url("levels_images/background_general.jpg") no-repeat center/cover;
+  overflow: hidden;
+}
+
+/* ----- Conteneur principal ----- */
+.game-container {
+  width: 850px;
+  height: 650px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 14px;
+  border: 3px solid rgba(255,255,255,0.4);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 25px rgba(255,255,255,0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ----- Barre du haut ----- */
+.game-header {
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(0,0,0,0.35);
+  padding: 10px 20px;
+  height: 60px;
+  border-bottom: 2px solid rgba(255,255,255,0.25);
+  color: white;
+  font-weight: 600;
+}
+
+/* ----- Étoiles ----- */
+.stars-container { display: flex; gap:6px; }
+.star { width:32px; height:32px; filter: drop-shadow(0 0 3px #fff); }
+
+/* ----- Aire de jeu ----- */
+.play-area {
+  flex:1;
+  background: url("levels_images/background_play.jpg") center/cover;
+  position: relative;
+  border-radius: 0 0 14px 14px;
+  overflow: hidden;
+}
+
+/* ----- Joueur ----- */
+.player {
+  position: absolute;
+  width: 65px;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+}
+
+/* ----- Ennemis ----- */
+.enemy {
+  position: absolute;
+  width: 55px;
+  z-index:2;
+  transition: top 0.1s, left 0.1s;
+}
+.enemy.grave { width: 65px; filter: brightness(0.85) contrast(1.2); }
+
+/* ----- Compte à rebours ----- */
+.countdown {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 120px;
+  color: #fff;
+  font-weight: 800;
+  text-shadow: 3px 3px 15px #000;
+  z-index: 10;
+}
+
+/* ----- Fin du jeu ----- */
+.end-message {
+  position: absolute;
+  top:40%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  font-size: 70px;
+  font-weight: 800;
+  color:white;
+  text-shadow: 3px 3px 15px #000;
+  z-index: 20;
+}

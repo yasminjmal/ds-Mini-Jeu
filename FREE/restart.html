@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Restart - Résultat</title>
+  
+  <style>
+    body { font-family: Poppins, sans-serif; display:flex; align-items:center; justify-content:center; height:100vh; margin:0; background:#f7f7f8; }
+    .card { background:white; padding:28px 36px; border-radius:14px; box-shadow:0 8px 30px rgba(0,0,0,0.08); text-align:center; width:92%; max-width:540px;}
+    h1 { color:#e68ca6; margin-bottom:6px; }
+    p { color:#555; margin:8px 0; font-weight:600;}
+    .btn { padding:12px 20px; margin:10px; background:#e68ca6; color:white; border:none; border-radius:10px; cursor:pointer; font-weight:700;}
+    .btn.back { background: #ddd; color:#444; }
+    /* free_mood.css (À ajouter à la fin) */
+
+/* --- Nouveaux Styles pour les coins dans la page Restart (Flammes) --- */
+
+.corner-image {
+    position: fixed; 
+    width: 400px; /* Taille initiale */
+    height: 400px; 
+    opacity: 0.8;
+    z-index: -1; /* Mettre derrière la carte */
+    pointer-events: none; 
+    transform-origin: center center;
+    animation: pulse 0.6s infinite alternate; /* Animation de pulsation */
+}
+#imgLoseTL, #imgLoseTR, #imgLoseBL, #imgLoseBR {
+    position: fixed; 
+    width: 300px; /* Taille initiale */
+    height: 300px; 
+    opacity: 0.8;
+    z-index: -1; /* Mettre derrière la carte */
+    pointer-events: none; 
+    transform-origin: center center;
+    animation: pulse 0.6s infinite alternate; /* Animation de pulsation */
+}
+
+.corner-image.top-left {
+    top: 20px;
+    left: 20px;
+}
+
+.corner-image.top-right {
+    top: 20px;
+    right: 20px;
+}
+
+.corner-image.bottom-left {
+    bottom: 20px;
+    left: 20px;
+}
+
+.corner-image.bottom-right {
+    bottom: 20px;
+    right: 20px;
+}
+
+/* Animation de pulsation rapide (agrandissement/réduction) */
+@keyframes pulse {
+    0% { transform: scale(0.95); opacity: 0.7; }
+    100% { transform: scale(1.05); opacity: 0.9; }
+}
+  </style>
+</head>
+<body>
+
+    <audio id="soundVictory" src="../sounds/victory_loop.mp3" loop preload="auto"></audio>
+    <audio id="soundDeception" src="../sounds/deception_loop.mp3" loop preload="auto"></audio>
+
+    <img id="imgWinTL" class="corner-image top-left" src="../images/victoire.png" style="display: none;">
+    <img id="imgWinTR" class="corner-image top-right" src="../images/victoire.png" style="display: none;">
+    <img id="imgWinBL" class="corner-image bottom-left" src="../images/victoire.png" style="display: none;">
+    <img id="imgWinBR" class="corner-image bottom-right" src="../images/victoire.png" style="display: none;">
+
+    <img id="imgLoseTL" class="corner-image top-left" src="../images/nono.png" style="display: none;">
+    <img id="imgLoseTR" class="corner-image top-right" src="../images/nono.png" style="display: none;">
+    <img id="imgLoseBL" class="corner-image bottom-left" src="../images/nono.png" style="display: none;">
+    <img id="imgLoseBR" class="corner-image bottom-right" src="../images/nono.png" style="display: none;">
+
+
+
+  <div class="card">
+    <h1>Game Over</h1>
+    <p id="scoreLine">Score : 0</p>
+    <p id="timeLine">Temps : 0 s</p>
+    <p id="highLine">High Score : 0</p>
+    <div>
+      <button class="btn" id="replay">Rejouer</button>
+      <button class="btn back" id="home">Accueil</button>
+    </div>
+  </div>
+
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+    // lecture des scores depuis localStorage
+    const lastScore = parseInt(localStorage.getItem('free_lastScore') || '0', 10);
+    const lastTime = parseInt(localStorage.getItem('free_lastTime') || '0', 10);
+    const high = parseInt(localStorage.getItem('free_highscore') || '0', 10);
+    // isNew est TRUE si la valeur stockée est '1'
+    const isNew = localStorage.getItem('free_isNewHigh') === '1'; 
+    
+    // Récupération des éléments pour les effets (Images et Sons)
+    const winImages = [
+        document.getElementById('imgWinTL'),
+        document.getElementById('imgWinTR'),
+        document.getElementById('imgWinBL'),
+        document.getElementById('imgWinBR')
+    ];
+    const loseImages = [
+        document.getElementById('imgLoseTL'),
+        document.getElementById('imgLoseTR'),
+        document.getElementById('imgLoseBL'),
+        document.getElementById('imgLoseBR')
+    ];
+    const soundVictory = document.getElementById('soundVictory');
+    const soundDeception = document.getElementById('soundDeception');
+    
+    // --- GESTION DES EFFETS ---
+    if (isNew) {
+        // NOUVEAU RECORD : Affiche les flammes de victoire
+        winImages.forEach(img => {
+            if (img) img.style.display = 'block'; // Vérifie que l'élément existe avant de l'afficher
+        });
+        if (soundVictory) {
+            soundVictory.volume = 0.5;
+            soundVictory.play().catch(() => {});
+        }
+        
+    } else {
+        // PAS DE RECORD : Affiche les flammes de déception
+        loseImages.forEach(img => {
+            if (img) img.style.display = 'block'; // Vérifie que l'élément existe avant de l'afficher
+        });
+        if (soundDeception) {
+            soundDeception.volume = 0.5;
+            soundDeception.play().catch(() => {});
+        }
+    }
+
+    // mise à jour de l'affichage du texte
+    document.getElementById('scoreLine').textContent = 'Score : ' + lastScore + (isNew ? ' ⭐ Nouveau High!' : '');
+    document.getElementById('timeLine').textContent = 'Temps : ' + lastTime + ' s';
+    document.getElementById('highLine').textContent = 'High Score : ' + high;
+
+    // Arrêt du son lors du départ de la page
+    const stopSounds = () => {
+        if (soundVictory) { soundVictory.pause(); soundVictory.currentTime = 0; }
+        if (soundDeception) { soundDeception.pause(); soundDeception.currentTime = 0; }
+    }
+
+    // boutons
+    document.getElementById('replay').addEventListener('click', () => {
+        stopSounds();
+        location.href = './free_mood.html';
+    });
+    document.getElementById('home').addEventListener('click', () => {
+        stopSounds();
+        location.href = '../mode de jeu/mode_jeu.html'; 
+    });
+    
+    // Arrêt du son si l'utilisateur quitte la page par un autre moyen
+    window.addEventListener('beforeunload', stopSounds);
+});
+</script>
+
+</body>
+</html>
